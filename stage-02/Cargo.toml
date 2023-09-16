@@ -1,5 +1,5 @@
 [package]
-name = "hngx-uno"
+name = "hngx-duo"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,6 +7,10 @@ edition = "2021"
 
 [dependencies]
 axum = { version = "0.6.20", features = ["query"] }
+diesel = { version = "2.1.1", features = ["sqlite", "returning_clauses_for_sqlite_3_35"] }
+dotenvy = "0.15.7"
 serde = { version = "1.0.188", features = ["serde_derive"] }
-time = { version = "0.3.28", features = ["formatting", "serde"] }
+serde_json = "1.0.107"
+serde_repr = "0.1.16"
 tokio = { version = "1.32.0", features = ["macros", "rt-multi-thread"] }
+uuid = { version = "1.4.1", features = ["v4", "fast-rng", "serde"] }
