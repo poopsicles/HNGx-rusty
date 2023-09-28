@@ -7,6 +7,7 @@ use diesel::{
     sql_types::Text,
     sqlite::Sqlite,
 };
+use serde::{Serialize, Deserialize};
 use serde_repr::*;
 use uuid::Uuid;
 
@@ -64,11 +65,29 @@ impl TryFrom<i32> for Colour {
     }
 }
 
+impl TryFrom<&str> for Colour {
+    type Error = &'static str;
+
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        match value.to_lowercase().as_str() {
+            "red" => Ok(Self::Red),
+            "green" => Ok(Self::Green),
+            "blue" => Ok(Self::Blue),
+            "yellow" => Ok(Self::Yellow),
+            "orange" => Ok(Self::Orange),
+            "purple" => Ok(Self::Purple),
+            "black" => Ok(Self::Black),
+            _ => Err("Colour expects one of `Red`, `Green`, `Blue`, `Yellow`, `Orange`, `Purple`, `Black`")
+        }
+    }
+}
+
 impl From<Colour> for i32 {
     fn from(val: Colour) -> Self {
         val as i32
     }
 }
+
 
 #[derive(Debug, AsExpression)]
 #[diesel(sql_type = Text)]

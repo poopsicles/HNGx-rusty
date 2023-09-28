@@ -1,5 +1,6 @@
 pub mod models;
 pub mod schema;
+pub mod handlers;
 
 use diesel::{prelude::*, sqlite::SqliteConnection};
 use dotenvy::dotenv;
@@ -17,7 +18,7 @@ pub fn establish_connection() -> SqliteConnection {
         .unwrap_or_else(|_| panic!("Error connecting to {}", database_url))
 }
 
-pub fn create_person(conn: &mut SqliteConnection, name: &str, age: u8) {
+pub fn create_person(conn: &mut SqliteConnection, name: &str, age: u8) -> Person {
     use crate::schema::persons;
 
     let new_person = NewPerson {
@@ -31,5 +32,5 @@ pub fn create_person(conn: &mut SqliteConnection, name: &str, age: u8) {
         .values(new_person)
         .returning(Person::as_returning())
         .get_result(conn)
-        .expect("Error saving new person");
+        .expect("Error saving new person")
 }
